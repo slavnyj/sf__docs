@@ -10,7 +10,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Документация по созданию веб-сайта и бэкапам</a></h1>
+                <h1><a href="/">SF Docs</a></h1>
                 <nav><ul>
                     <li><a href="/category/backup.html">Backup</a></li>
                     <li class="active"><a href="/category/deploy-wordpress.html">Deploy WordPress</a></li>
@@ -26,8 +26,8 @@
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2021-07-25T23:30:00+03:00">
-                Published: Sun 25 July 2021
+        <abbr class="published" title="2021-07-25T10:20:00+03:00">
+                Published: ?? 25 ???? 2021
         </abbr>
 
         <address class="vcard author">
@@ -80,18 +80,6 @@ cd ansible-wordpress
 <div class="highlight"><pre><span></span><code>ansible-playbook site.yaml server_name
 </code></pre></div>
 
-<p>В файле <code>/group_vars/all</code> можно установить
-| Переменная  | Значение |
-| ------------- | ------------- |
-|mysql_root_password|пароль пользователя root БД |
-|wp_db_name|имя БД, в которую будет установлен WordPress|<br>
-|wp_db_user|имя пользователя БД WordPress|
-|wp_db_password|пароль пользователя БД WordPress|
-|mysql_port|порт на котором будет БД|
-|server_hostname|имя сервера, используется в конфигурации Nginx для WordPress|
-|remote_user|имя пользователя под которым будет выполняться установка и подключение у удаленному хосту|
-|admin_email|email администратора сайта|
-|timezone|временная зона, которая будет установлена на хосте|</p>
 <p>На сервере будет установлен:
 - WordPress (последняя версия)
 - UFW

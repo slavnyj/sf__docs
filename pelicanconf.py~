@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 
 AUTHOR = 'Alexandr Ivanov'
-SITENAME = 'SF Docs'
+SITENAME = 'Документация по созданию веб-сайта и бэкапам'
 SITEURL = ''
 
 PATH = 'content'
