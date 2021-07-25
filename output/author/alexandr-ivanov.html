@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Документация по созданию веб-сайта и бэкапам - Alexandr Ivanov</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Документация по созданию веб-сайта и бэкапам</a></h1>
+                <nav><ul>
+                    <li><a href="/category/backup.html">Backup</a></li>
+                    <li><a href="/category/deploy-wordpress.html">Deploy WordPress</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/backup.html">Bash-скрипт для бекапа на Яндекс.Диск</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2021-07-25T23:35:00+03:00">
+                Published: Sun 25 July 2021
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/alexandr-ivanov.html">Alexandr Ivanov</a>
+        </address>
+<p>In <a href="/category/backup.html">Backup</a>.</p>
+<p>tags: <a href="/tag/tutorial.html">tutorial</a> <a href="/tag/backup.html">backup</a> </p>
+</footer><!-- /.post-info --><p>Возможности скрипта:<br>
+- Создание на сервере бекапа файлов (каталога);
+- Авторизация на Яндекс.Диске в качестве приложения (по токену);
+- Отправка бекапов с сервера на Яндекс.Диск;
+- Удаление старых бекапов с Яндекс.Диска для экономии места (настраивается максимальное количество хранимых бэкапов);
+- Запись лога.</p>
+<h2>Получение токена от Яндекс.Диска</h2>
+<ol>
+<li>Авторизовываемся на Яндексе под аккаунтом, на диск которого будем делать бекап, заходим на <code>oauth.yandex.ru</code> и нажимаем <code>Зарегистрировать новое приложение</code>.</li>
+<li>Заполняем название приложения (например, <code>backup</code>). В разделе <strong><code>Платформы</code></strong> ставим галочку напротив <code>Веб-сервисы</code> и под <em><code>Callback URI #1:</code></em> нажимаем на ссылку <em><code>Подставить URL для разработки</code></em>.</li>
+<li>Далее выдаём нужные права в разделе <strong><code>Яндекс.Диск REST API</code></strong>, а именно: <code>Доступ к информации о Диске</code> и <code>Доступ к папке приложения на Диске</code>. Нажимаем на кнопку <strong><code>Создать приложение</code></strong>.</li>
+<li>После этого вас перенаправят на страницу с данными о приложении, нам нужен ID.</li>
+<li>Получаем токен. Для этого копируем ID из предыдущего пункта и подставляем в конец URL <code>https://oauth.yandex.ru/authorize?response_type=token&amp;client_id=</code> Переходим по получившемуся адресу и подтверждаем выдачу разрешений приложению. В итоге на странице будет отображён токен, который выдается не менее, чем на 1 год, поэтому если скрипт бекапа вдруг перестанет работать, мы сможем получить новый токен и подставить его в скрипт.</li>
+</ol>
+<h2>Настройки скрипта</h2>
+<p>В теле скрипта обозначены настройки, которые можно изменить. Не забуль указать свой токен в переменной <strong><em><code>TOKEN</code></em></strong></p>
+<p>Скрипт следует расположить на сервере, заменить в нём параметры на свои, дать права на запуск (chmod +x) и поставить на ежедневное выполнение в cron. </p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/deploy-wo.html" rel="bookmark"
+                           title="Permalink to Деплой WordPress на локальный и удаленный сервера">Деплой WordPress на локальный и удаленный сервера</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2021-07-25T23:30:00+03:00">
+                Published: Sun 25 July 2021
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/alexandr-ivanov.html">Alexandr Ivanov</a>
+        </address>
+<p>In <a href="/category/deploy-wordpress.html">Deploy WordPress</a>.</p>
+<p>tags: <a href="/tag/tutorial.html">tutorial</a> <a href="/tag/wordpress.html">wordpress</a> </p>
+</footer><!-- /.post-info -->                <h2>Подготовка</h2>
+<p>На хосте c Ubuntu 18.04, на котором будет установлен WordPress должен быть установлен Ansible.</p>
+<div class="highlight"><pre><span></span><code>sudo apt update
+sudo apt install python
+sudo apt install ansible
+</code></pre></div>
+
+<p>На локальный хост клонируем репозиторий</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/slavnyj/ansible-wordpress.git
+cd ansible-wordpress
+</code></pre></div>
+
+<h2>Для локальной установки WordPress, выполняем</h2>
+<div class="highlight"><pre><span></span><code>ansible-playbook --connection=local …</code></pre></div>
+                <a class="readmore" href="/deploy-wo.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="https://getpelican.com/">Pelican</a></li>
+                            <li><a href="https://www.python.org/">Python.org</a></li>
+                            <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

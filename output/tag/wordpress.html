@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Документация по созданию веб-сайта и бэкапам - wordpress</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Документация по созданию веб-сайта и бэкапам</a></h1>
+                <nav><ul>
+                    <li><a href="/category/backup.html">Backup</a></li>
+                    <li><a href="/category/deploy-wordpress.html">Deploy WordPress</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/deploy-wo.html">Деплой WordPress на локальный и удаленный сервера</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2021-07-25T23:30:00+03:00">
+                Published: Sun 25 July 2021
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/alexandr-ivanov.html">Alexandr Ivanov</a>
+        </address>
+<p>In <a href="/category/deploy-wordpress.html">Deploy WordPress</a>.</p>
+<p>tags: <a href="/tag/tutorial.html">tutorial</a> <a href="/tag/wordpress.html">wordpress</a> </p>
+</footer><!-- /.post-info --><h2>Подготовка</h2>
+<p>На хосте c Ubuntu 18.04, на котором будет установлен WordPress должен быть установлен Ansible.</p>
+<div class="highlight"><pre><span></span><code>sudo apt update
+sudo apt install python
+sudo apt install ansible
+</code></pre></div>
+
+<p>На локальный хост клонируем репозиторий</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/slavnyj/ansible-wordpress.git
+cd ansible-wordpress
+</code></pre></div>
+
+<h2>Для локальной установки WordPress, выполняем</h2>
+<div class="highlight"><pre><span></span><code>ansible-playbook --connection=local --inventory 127.0.0.1, site.yaml
+</code></pre></div>
+
+<h2>Для установки WordPress на удаленном сервере</h2>
+<h4>Все действия производятся на локальном сервере, куда был склонирован репозиторий https://github.com/slavnyj/ansible-wordpress.git</h4>
+<ol>
+<li>Создаем пары ключей SSH</li>
+</ol>
+<div class="highlight"><pre><span></span><code>ssh-keygen
+</code></pre></div>
+
+<ol>
+<li>Настраиваем удаленный хост, где <code>username</code> - пользователь на удаленном сервере, под которым будет выполняться установка WordPress (см. <code>remote_user</code> ниже в таблице), <code>remote_host</code> - ip или dns удаленного сервера.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">ssh</span><span class="o">-</span><span class="n">copy</span><span class="o">-</span><span class="n">id</span><span class="w"> </span><span class="n">username</span><span class="nv">@remote_host</span><span class="w"></span>
+</code></pre></div>
+
+<ol>
+<li>Добавляем удаленный хост в Ansible Inventory File </li>
+</ol>
+<div class="highlight"><pre><span></span><code>sudo nano /etc/ansible/hosts
+</code></pre></div>
+
+<p>Добавляем в файл запись вида</p>
+<div class="highlight"><pre><span></span><code><span class="n">server_name</span><span class="w"> </span><span class="n">ansible_host</span><span class="o">=[</span><span class="n">server_ip</span><span class="o">]</span><span class="w"></span>
+</code></pre></div>
+
+<p>Например, <code>server1 ansible_host=10.3.54.3</code></p>
+<p>Запускам установку WordPress</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook site.yaml server_name
+</code></pre></div>
+
+<p>В файле <code>/group_vars/all</code> можно установить
+| Переменная  | Значение |
+| ------------- | ------------- |
+|mysql_root_password|пароль пользователя root БД |
+|wp_db_name|имя БД, в которую будет установлен WordPress|<br>
+|wp_db_user|имя пользователя БД WordPress|
+|wp_db_password|пароль пользователя БД WordPress|
+|mysql_port|порт на котором будет БД|
+|server_hostname|имя сервера, используется в конфигурации Nginx для WordPress|
+|remote_user|имя пользователя под которым будет выполняться установка и подключение у удаленному хосту|
+|admin_email|email администратора сайта|
+|timezone|временная зона, которая будет установлена на хосте|</p>
+<p>На сервере будет установлен:
+- WordPress (последняя версия)
+- UFW
+- MariaDB (последняя версия)
+- NGINX (последняя версия)
+- Postfix
+- PHP-FPM 7.4
+- phpMyAdmin
+- Redis
+- SFTP</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="https://getpelican.com/">Pelican</a></li>
+                            <li><a href="https://www.python.org/">Python.org</a></li>
+                            <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
